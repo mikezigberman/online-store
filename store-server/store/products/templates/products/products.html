@@ -15,11 +15,9 @@
 
             <h1 class="my-4">Store</h1>
             <div class="list-group">
-                <a href="#" class="list-group-item">Novelties</a>
-                <a href="#" class="list-group-item">Cloth</a>
-                <a href="#" class="list-group-item">Shoes</a>
-                <a href="#" class="list-group-item">Accessories</a>
-                <a href="#" class="list-group-item">Gifts</a>
+                {% for category in categories %}
+                    <a href="#" class="list-group-item">{{ category.name }}</a>
+                {% endfor %}
             </div>
 
         </div>
@@ -61,7 +59,7 @@
                     <div class="card h-100">
                         <a href="#">
                             <img class="card-img-top"
-                                 src="{{ product.image }}"
+                                 src="..."
                                  alt="">
                         </a>
                         <div class="card-body">
