@@ -1,15 +1,15 @@
-from django.shortcuts import render, HttpResponseRedirect
-from django.contrib import auth, messages
-from django.urls import reverse, reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
+from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from users.models import User
+from users.models import User, EmailVerification
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from products.models import Basket
 from common.views import TitleMixin
+
 
 class UserLoginView(TitleMixin, LoginView):
     template_name = 'users/login.html'
@@ -22,7 +22,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
     success_message = 'You have successfully registered!'
-    title = 'Store - Registration'
+    title = 'Store - registration'
 
 class UserProfileView(TitleMixin, UpdateView):
     model = User
@@ -31,13 +31,24 @@ class UserProfileView(TitleMixin, UpdateView):
     title = 'Store - Personal Account'
 
     def get_success_url(self):
-        return reverse_lazy('users:profile', args=(self.object.id))
+        return reverse_lazy('users:profile', args=(self.object.id,))
 
     def get_context_data(self, **kwargs):
-        context = super(UserProfileView, self).get_context_data(**kwargs)
+        context = super(UserProfileView, self).get_context_data()
         context['baskets'] = Basket.objects.filter(user=self.object)
         return context
 
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+class EmailVerificationView(TitleMixin, TemplateView):
+    title = 'Store - Email confirmation'
+    template_name = 'users/email_verification.html'
+    
+    def get(self, request, *args, **kwargs):
+        code = kwargs['code']
+        user = User.objects.get(email=kwargs['email'])
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
+        if email_verifications.exists() and not email_verifications.first().is_expired():
+            user.is_verified_email = True
+            user.save()
+            return super(EmailVerificationView, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('index'))
