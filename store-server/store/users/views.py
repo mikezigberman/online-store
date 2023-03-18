@@ -6,7 +6,6 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
 from common.views import TitleMixin
-from products.models import Basket
 from users.forms import UserLoginForm, UserProfileForm, UserRegistrationForm
 from users.models import EmailVerification, User
 
@@ -22,7 +21,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')
     success_message = 'You have successfully registered!'
-    title = 'Store - registration'
+    title = 'Store - Registration'
 
 class UserProfileView(TitleMixin, UpdateView):
     model = User

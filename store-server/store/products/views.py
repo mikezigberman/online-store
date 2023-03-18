@@ -11,6 +11,7 @@ class IndexView(TitleMixin, TemplateView):
     template_name = 'products/index.html'
     title = 'Store'
 
+
 class ProductsListView(TitleMixin, ListView):
     model = Product
     template_name = 'products/products.html'
@@ -27,6 +28,7 @@ class ProductsListView(TitleMixin, ListView):
         context['categories'] = ProductCategory.objects.all()
         return context
 
+
 @login_required
 def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -41,9 +43,9 @@ def basket_add(request, product_id):
 
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
+
 @login_required
 def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
-
     return HttpResponseRedirect(request.META['HTTP_REFERER'])

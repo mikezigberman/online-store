@@ -11,11 +11,9 @@ from users.models import EmailVerification, User
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter username'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter username'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter password'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter password'}))
 
     class Meta:
         model = User
@@ -23,23 +21,18 @@ class UserLoginForm(AuthenticationForm):
 
 class UserRegistrationForm(UserCreationForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter name'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter lastname'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter lastname'}))
     username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter username'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter username'}))
     email = forms.CharField(widget=forms.EmailInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter email'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter email'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Enter password'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Enter password'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class': 'form-control py-4', 'placeholder': 'Confirm password'
-    }))
+        'class': 'form-control py-4', 'placeholder': 'Confirm password'}))
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
@@ -51,22 +44,13 @@ class UserRegistrationForm(UserCreationForm):
         record.send_verification_email()
         return user
 
+
 class UserProfileForm(UserChangeForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4'
-    }))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4'
-    }))
-    image = forms.ImageField(widget=forms.FileInput(attrs={
-        'class': 'custom-file-input',
-    }), required=False)
-    username = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'readonly': True
-    }))
-    email = forms.CharField(widget=forms.TextInput(attrs={
-        'class': 'form-control py-4', 'readonly': True
-    }))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4'}))
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly': True}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'readonly': True}))
 
     class Meta:
         model = User
